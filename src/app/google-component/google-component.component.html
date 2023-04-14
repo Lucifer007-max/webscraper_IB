@@ -1,0 +1,348 @@
+<!-- <div *ngIf="this.resData.search_parameters.engine === 'google'"> -->
+  <a *ngIf="this.organicResult && this.organicResult.length  != 0" class="btn btn-outline-primary btn-sm  float-end" (click)="export()"> <i class="fa fa-file-download mx-2"></i> <small>Export Organic</small></a>
+  <a *ngIf="this.adsResults && this.adsResults.length  != 0" class="btn btn-outline-warning btn-sm float-end mx-2" (click)="exportAds()"> <i class="fa fa-file-download mx-2"></i> <small>Export Ads</small></a>
+<!-- </div> -->
+<!-- <div *ngIf="this.resData.search_parameters.engine === 'bing'">
+  <a *ngIf="this.organicResult && this.organicResult.length  != 0" class="btn btn-outline-primary btn-sm  float-end" (click)="export()">
+     <i class="fa fa-file-download mx-2"></i> <small>Export Organic</small>
+  </a>
+  <a *ngIf="this.adsResults && this.adsResults.length  != 0" class="btn btn-outline-warning btn-sm float-end mx-2" (click)="exportAds()">
+     <i class="fa fa-file-download mx-2"></i> <small>Export Ads</small>
+  </a>
+</div> -->
+
+<header class="d-flex align-items-center d-none">
+  <div class="col-2">
+    <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" width="100px" alt="google-image">
+  </div>
+  <div class="d-flex col-7 search__div flex-column position-relative">
+    <div class="d-flex align-items-center">
+      <!-- <input type="text" value="{{this.searchParms}}" disabled /> -->
+      <div class="search__btn">
+        <ul class="list-none d-flex justify-content-between m-0">
+          <li class="position-relative"><i class="fa fa-times"></i></li>
+          <li><i class="fa fa-microphone"></i></li>
+          <li><i class="fa fa-camera"></i></li>
+          <li><i class="fa fa-search"></i></li>
+        </ul>
+      </div>
+    </div>
+    <div class="position-absolute search__bottom_icon">
+      <ul class="list-none flex-row justify-content-between d-flex">
+        <li class="d-flex align-items-center active">
+          <i class="fa fa-magnifying-glass"></i>
+          <span class="mx-2">
+            All
+          </span>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="fa fa-location-dot"></i>
+          <span class="mx-2">
+            Maps
+          </span>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="fa fa-image"></i>
+          <span class="mx-2">
+            Images
+          </span>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="fa fa-tag"></i>
+          <span class="mx-2">
+            Shopping
+          </span>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="fa fa-newspaper"></i>
+          <span class="mx-2">
+            News
+          </span>
+        </li>
+        <li class="d-flex align-items-center">
+          <i class="far fa-ellipsis-stroke-vertical"></i>
+          <span class="mx-2">
+            More
+          </span>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+  <div class="col-3 d-none">
+    <ul class="d-flex setting__icon">
+      <li>
+        <i class="fa fa-cog"></i>
+      </li>
+      <li>
+        <i class="fa fa-bars"></i>
+      </li>
+      <li>
+        <i class="fa fa-user"></i>
+      </li>
+    </ul>
+  </div>
+</header>
+
+
+<div class="border-top mt-2 preview_bg">
+  <div>
+      <div id="result-stats" class="LHJvCe " >About {{this.totalResults}} results ({{this.totalTime}})&nbsp;</div>
+    <div>
+      <!-- Ads Section -->
+      <div *ngFor="let data of this.adsResults;index as i" class="search_section ads">
+        <div class="bg-danger nav-pills">
+          <strong>sponsored</strong>
+        </div>
+        <a href="{{data.displayed_link}}" target="_blank">
+          <div class="d-flex">
+            <div *ngIf="data.icon && data.icon.length" class="site_icon">
+              <img src="{{data.icon}}" />
+            </div>
+            <div class="d-flex flex-column">
+              <span></span>
+              <div><cite class="display_link">{{data.displayed_link}}</cite></div>
+            </div>
+          </div>
+          <h3 class="title">{{data.title}}</h3>
+        </a>
+        <div>
+          <span *ngIf="data.date && data.date.length" class="date">{{data.date}} - </span>
+          <span class="text" *ngIf="data.description && data.description.length !== 0"> {{data.description}}</span>
+        </div>
+        <div>
+          <ul class="sitelink_ul" *ngIf="this.adsResults[i].sitelinks && this.adsResults[i].sitelinks.length">
+            <li *ngFor="let site of this.adsResults[i].sitelinks">
+              <a href="{{site.link}}" target="_blank">
+                <h3 class="title">{{site.title}}</h3>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-danger nav-pills mx-2">
+          <small>Ads</small>
+        </div>
+        <div class="bg-warning nav-pills mx-2">
+          <span class="fa fa-clock-rotate-left mx-2" (click)="pageLoad(data.link ,i)"></span>
+          <span *ngIf="time[i] == null;">Current Load Time </span>
+          <span  *ngIf='time[i] != null'>
+            <small *ngIf="time[i]">Load time:  <span class="timee"> {{ time[i] }}</span> sec</small>
+          </span>
+          <span *ngIf="Loadurl == data.link" [innerHTML]="spinner"></span>
+          <!-- <span *ngIf="Loadurl == data.link" [innerHTML]="spinner"></span> -->
+        </div>
+        <div class="bg-warning nav-pills mx-2" *ngIf="data.link == this.link">
+          <span class="fa fa-clock-rotate-left mx-2" (click)="prevLoad(data.link ,i)"></span>
+          <span *ngIf="prevtime[i] == null;">Prev Load time </span>
+          <span  *ngIf='prevtime[i] != null'>
+            <small *ngIf="prevtime[i]">Load Prev time:  <span class="timee"> {{ prevtime[i] }}</span> sec</small>
+          </span>
+          <!-- <span *ngIf="prevLoadurl == list.link" [innerHTML]="spinner"></span> -->
+        </div>
+        <div class="bg-info nav-pills mx-2">
+          <span class="tool" attr.data-tip="{{data.title}}">Title <i class="fa fa-clipboard text-light mx-1"
+              (click)="copytitle(data.title)"></i></span>
+        </div>
+        <div class="bg-info nav-pills mx-2">
+          <span class="tool" attr.data-tip="{{data.description}}">Description <i class="fa fa-clipboard text-light mx-1"
+              (click)="copydescription(data.description)"></i></span>
+        </div>
+      </div>
+
+      <!-- Organic Section  -->
+      <!-- Bing -->
+      <div *ngIf="this.resData.search_parameters.engine === 'bing'">
+        <div *ngFor="let list of this.organicResult;index as i" class="search_section organic">
+          <a href="{{list.link}}" target="_blank">
+            <div class="d-flex">
+              <div class="site_icon" *ngIf="list.thumbnail && list.thumbnail !== null">
+                <img src="{{list.thumbnail}}" />
+              </div>
+              <div class="d-flex flex-column">
+                <span></span>
+                <div><cite class="display_link">{{list.displayed_link}}</cite></div>
+              </div>
+            </div>
+            <h3 class="title">{{list.title}}</h3>
+          </a>
+          <div>
+            <span *ngIf="list.date && list.date.length" class="date">{{list.date}} - </span>
+            <span class="text"> {{list.snippet}}</span>
+          </div>
+          <div>
+            <ul class="sitelink_ul" *ngIf="this.organicResult[i].sitelinks && this.organicResult[i].sitelinks.length ;">
+              <li *ngFor="let orgsite of this.organicResult[i].sitelinks.inline;">
+                <a href="{{orgsite[i].link}}" target="_blank">
+                  <h3 class="title">{{orgsite[i].title}}</h3>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="bg-success nav-pills mx-2">
+            <small>Organic</small>
+          </div>
+          <div class="bg-warning nav-pills">
+            <span class="fa fa-clock-rotate-left mx-2" (click)="pageLoad(list.link , i)"></span>
+            <span *ngIf="time[i] == null;"> Load Time </span>
+            <span  *ngIf='time[i] != null'>
+              <small *ngIf="time[i]">Current Load time:  <span class="timee"> {{ time[i] }}</span> sec</small>
+            </span>
+            <span *ngIf="Loadurl == list.link" [innerHTML]="spinner"></span>
+          </div>
+          <div class="bg-warning nav-pills mx-2" *ngIf="list.link == this.link">
+            <span class="fa fa-clock-rotate-left mx-2" (click)="prevLoad(list.link ,i)"></span>
+            <span *ngIf="prevtime[i] == null;">Prev Load time </span>
+            <span  *ngIf='prevtime[i] != null'>
+              <small *ngIf="prevtime[i]">Load Prev time:  <span class="timee"> {{ prevtime[i] }}</span> sec</small>
+            </span>
+            <!-- <span *ngIf="prevLoadurl == list.link" [innerHTML]="spinner"></span> -->
+          </div>
+          <div class="bg-info nav-pills mx-2">
+            <span class="tool" attr.data-tip="{{list.title}}">Title <i class="fa fa-clipboard text-light mx-1"
+                (click)="copytitle(list.title)"></i></span>
+          </div>
+          <div class="bg-info nav-pills mx-2">
+            <span class="tool" attr.data-tip="{{list.snippet}}">Description <i
+                class="fa fa-clipboard text-light mx-1"
+                (click)="copydescription(list.snippet)"></i></span>
+          </div>
+        </div>
+      </div>
+      <!-- Google -->
+      <div *ngIf="this.resData.search_parameters.engine === 'google'">
+        <div *ngFor="let list of this.organicResult;index as i" class="search_section organic">
+          <a href="{{list.link}}" target="_blank">
+            <div class="d-flex">
+              <div class="site_icon">
+                <div *ngIf="list.about_this_result.source.icon === null || undefined ">
+                  <img src="" />
+                </div>
+                <img src="{{list.about_this_result.source.icon}}" />
+              </div>
+              <div class="d-flex flex-column">
+                <span></span>
+                <div><cite class="display_link">{{list.displayed_link}}</cite></div>
+              </div>
+            </div>
+            <h3 class="title">{{list.title}}</h3>
+          </a>
+          <div>
+            <span *ngIf="list.date && list.date.length" class="date">{{list.date}} - </span>
+            <span class="text"> {{list.snippet}}</span>
+          </div>
+          <div>
+            <ul class="sitelink_ul" *ngIf="this.organicResult[i].sitelinks && this.organicResult[i].sitelinks.length ;">
+              <li *ngFor="let orgsite of this.organicResult[i].sitelinks.inline;">
+                <a href="{{orgsite[i].link}}" target="_blank">
+                  <h3 class="title">{{orgsite[i].title}}</h3>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="bg-success nav-pills mx-2">
+            <small>Organic</small>
+          </div>
+          <div class="bg-warning nav-pills">
+            <span class="fa fa-clock-rotate-left mx-2" (click)="pageLoad(list.link , i)"></span>
+            <span *ngIf="time[i] == null;">Current Load Time </span>
+            <span  *ngIf='time[i] != null'>
+              <small *ngIf="time[i]">Load time:  <span class="timee"> {{ time[i] }}</span> sec</small>
+            </span>
+            <span *ngIf="Loadurl == list.link" [innerHTML]="spinner"></span>
+          </div>
+          <div class="bg-warning nav-pills mx-2" *ngIf="list.link == this.link">
+            <span class="fa fa-clock-rotate-left mx-2" (click)="prevLoad(list.link ,i)"></span>
+            <span *ngIf="prevtime[i] == null;">Prev Load time </span>
+            <span  *ngIf='prevtime[i] != null'>
+              <small *ngIf="prevtime[i]">Load Prev time:  <span class="timee"> {{ prevtime[i] }}</span> sec</small>
+            </span>
+            <!-- <span *ngIf="prevLoadurl == list.link" [innerHTML]="spinner"></span> -->
+          </div>
+          <div class="bg-info nav-pills mx-2">
+            <span class="tool" attr.data-tip="{{list.title}}">Title <i class="fa fa-clipboard text-light mx-1"
+                (click)="copytitle(list.title)"></i></span>
+          </div>
+          <div class="bg-info nav-pills mx-2" *ngIf="list.snippet && list.snippet.length !== 0" >
+            <span class="tool" attr.data-tip="{{list.snippet}}">Description <i
+                class="fa fa-clipboard text-light mx-1"
+                (click)="copydescription(list.snippet)"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div [innerHTML]="spinner" class="load"></div> -->
+<table id="excel-table" class="d-none" >
+  <tr>
+     <th>Sr No.</th>
+     <th>Link</th>
+     <th>Link Type</th>
+     <th>Page Load</th>
+     <th>Page Title</th>
+     <th>Page Description</th>
+  </tr>
+  <tbody *ngIf="this.resData.search_parameters.engine === 'google'">
+    <tr *ngFor="let sup of this.organicResult;index as i">
+       <td> {{i+1}}</td>
+       <td>{{ sup.link }}</td>
+       <td>Organic</td>
+       <td> {{prevtime[i]}}</td>
+       <td>{{ sup.title }}</td>
+       <td>{{ sup.snippet }}</td>
+    </tr>
+  </tbody>
+  <tbody *ngIf="this.resData.search_parameters.engine === 'bing'">
+    <tr *ngFor="let binglist of this.organicResult;index as i">
+       <td> {{i+1}}</td>
+      <td>{{  binglist.displayed_link }}</td>
+       <td>Organic</td>
+       <td> {{prevtime[i]}}</td>
+      <td>{{  binglist.title }}</td>
+      <td>{{  binglist.snippet }}</td>
+    </tr>
+  </tbody>
+</table>
+<table id="excel-table-ads" class="d-none">
+  <tr>
+     <th>Sr No.</th>
+     <th>Link</th>
+     <th>Link Type</th>
+     <th>Page Title</th>
+     <th>Page Description</th>
+  </tr>
+  <tbody *ngIf="this.resData.search_parameters.engine === 'google'">
+    <tr *ngFor="let adsList of this.adsResults;index as i">
+      <td> {{i+1}}</td>
+      <td>{{ adsList.link }}</td>
+      <td>Ads/sponsored</td>
+      <td>{{ adsList.title }}</td>
+      <td>{{ adsList.description }}</td>
+    </tr>
+  </tbody>
+  <tbody *ngIf="this.resData.search_parameters.engine === 'bing'">
+    <tr *ngFor="let binglist of this.adsResults;index as i">
+       <td> {{i+1}}</td>
+      <td>{{  binglist.displayed_link }}</td>
+       <td>Ads/sponsored</td>
+      <td>{{  binglist.title }}</td>
+      <td>{{  binglist.description }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

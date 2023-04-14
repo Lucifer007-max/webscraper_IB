@@ -1,0 +1,241 @@
+.setting__icon {
+  padding: 0;
+}
+.list-none {
+  list-style: none;
+  padding: 0;
+}
+.setting__icon li  {
+  list-style: none;
+
+}
+
+.search__div{
+    display: flex;
+    z-index: 3;
+    height: 44px;
+    background: #fff;
+    border: 1px solid transparent;
+    box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+    border-radius: 24px;
+    justify-content: space-around;
+    padding: 0 20px;
+    /* margin: 0 auto; */
+    /* width: 100%; */
+    /* padding: 0.85rem; */
+}
+
+input{
+  flex-grow: 2;
+  background: transparent;
+  /* width: 100%; */
+  border: 0;
+  /* padding: 1rem; */
+  outline: 0;
+}
+.search__btn {
+  flex-grow: 1;
+}
+.search__btn ul li:nth-child(1):before{
+  content: '';
+  height: 90%;
+  width: 1px;
+  color: #111;
+  position: absolute;
+  top: 1px;
+  right: -13px;
+  background: #111;
+}
+.search__bottom_icon {
+  top: 60px;
+    left: 0;
+}
+
+.search__bottom_icon ul  li {
+  margin-right: 10px;
+  padding-bottom: 4px;
+}
+.active {
+  border-bottom: 3px solid #4285f4;
+
+}
+
+
+.search_section{
+  margin-bottom: 30px;
+}
+.LHJvCe {
+  color: #5f5f5f;
+  display: flex;
+  justify-content: space-between;
+  -webkit-transition: all 220ms ease-in-out;
+  line-height: 43px;
+  min-width: 652px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family:'Lato', sans-serif;
+  padding-top: 0px;
+  padding-bottom: 0;
+  padding-right: 8px;
+  font-size: 14px;
+}
+.title {
+  font-size: 20px;
+  font-weight: 400;
+}
+.date {
+  color: #70757a;
+}
+.text{
+  font-size: 15px;
+  font-weight: 400;
+  color: #4d5156;
+}
+
+.display_link{
+  font-size: 12px;
+    font-style: normal;
+    color: #4d5156;
+}
+a{
+  color: #1a0dab;
+}
+.site_icon{
+  background-color: #f1f3f4;
+  border-radius: 50%;
+  border: 1px solid #ecedef;
+  -webkit-text-size-adjust: none;
+  display: inline-block;
+  line-height: 26px;
+  padding: 0 4px;
+  margin-right: 12px;
+}
+.site_icon img{
+  height: 18px;
+  width: 18px;
+  position: relative;
+  top: -2px;
+
+}
+.nav-pills{
+  display: inline-block;
+  border-radius: 50px;
+  padding: 1px 8px 1px 0px;
+  color: #111;
+  margin-top: 3px !important;
+}
+.bg-danger , .bg-success{
+  border-radius: 20px;
+  padding: 0px 10px 0px 10px ;
+  color:#fff;
+}
+
+.sitelink_ul li {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.sitelink_ul{
+  margin: 25px 0;
+}
+
+
+
+
+
+/*== start of code for tooltips ==*/
+.tool {
+  cursor: pointer;
+  position: relative;
+}
+
+
+/*== common styles for both parts of tool tip ==*/
+.tool::before,
+.tool::after {
+  left: 50%;
+  opacity: 0;
+  position: absolute;
+  z-index: -100;
+}
+
+.tool:hover::before,
+.tool:focus::before,
+.tool:hover::after,
+.tool:focus::after {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  z-index: 100;
+}
+
+
+/*== pointer tip ==*/
+.tool::before {
+  border-style: solid;
+  border-width: 1em 0.75em 0 0.75em;
+  border-color: #3E474F transparent transparent transparent;
+  bottom: 100%;
+  content: "";
+  margin-left: -0.5em;
+  transition: all .65s cubic-bezier(.84,-0.18,.31,1.26), opacity .65s .5s;
+  transform:  scale(.6) translateY(-90%);
+}
+
+.tool:hover::before,
+.tool:focus::before {
+  transition: all .65s cubic-bezier(.84,-0.18,.31,1.26) .2s;
+}
+
+
+/*== speech bubble ==*/
+.tool::after {
+  background: #3E474F;
+  border-radius: .25em;
+  bottom: 170%;
+  color: #EDEFF0;
+  content: attr(data-tip);
+  margin-left: -8.75em;
+  padding: 1em;
+  transition: all .65s cubic-bezier(.84,-0.18,.31,1.26) .2s;
+  transform:  scale(.6) translateY(50%);
+  width: 44.5em;
+}
+
+.tool:hover::after,
+.tool:focus::after  {
+  transition: all .65s cubic-bezier(.84,-0.18,.31,1.26);
+}
+
+@media (max-width: 760px) {
+.tool::after {
+      font-size: .75em;
+      margin-left: -5em;
+      width: 10em;
+}
+}
+
+.bg-info{
+  padding: 1px 11px 1px 11px !important;
+}
+
+.fa-clipboard {
+ transition: 0.4s all;
+}
+
+.fa-clipboard:hover
+{
+  color: greenyellow !important;
+
+}
+
+
+
+.fa-clock-rotate-left{
+  cursor: pointer;
+}
+.timee {
+  width: 23px;
+  display: inline-grid;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
