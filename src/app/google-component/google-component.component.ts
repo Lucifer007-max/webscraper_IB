@@ -24,7 +24,9 @@ export class  GoogleComponentComponent implements OnChanges  {
   spinner:any
   Loadurl:any
   prevLoadurl:any
-  link:any
+  link:any;
+  cmsurl:any;
+  cms:any[] = [];
   constructor(private clipboard: Clipboard , private service : ServiceService , private loader: LoaderService) { }
   ngOnChanges(changes: SimpleChanges): void {
     this.res = this.resData
@@ -34,7 +36,7 @@ export class  GoogleComponentComponent implements OnChanges  {
 
     this.adsResults = this.res.ads
     this.organicResult = this.res.organic_results
-    this. getLink()
+    this.getLink()
   }
 
 
@@ -107,6 +109,18 @@ export class  GoogleComponentComponent implements OnChanges  {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet2');
 
     XLSX.writeFile(wb, this.fileNameads);
+  }
+
+
+
+  handleCMS(t: any, i: any) {
+    console.log(t, this.link),
+    this.spinner = this.loader.spinner(),
+    this.cmsurl = t,
+    this.service.CMSload({ url: t }).subscribe((res: any) => {
+      this.spinner = this.loader.hide(),
+      this.cms[i] = res
+    })
   }
 
 }

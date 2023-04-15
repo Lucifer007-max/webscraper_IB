@@ -23,6 +23,10 @@ export class ServiceService {
     return this.httpclient.post(this.base_url + 'search/prevpageLoad' , data)
     .pipe(catchError(this.handleError));
   }
+  CMSload(data:any){
+    return this.httpclient.post(this.base_url + 'search/cmsFinder' , data)
+    .pipe(catchError(this.handleError));
+  }
   getLinks(): Observable<any[]> {
     return this.httpclient.get<any[]>(this.base_url + 'search/getLink')
   }

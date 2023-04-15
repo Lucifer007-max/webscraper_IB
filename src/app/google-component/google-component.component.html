@@ -147,6 +147,16 @@
           <span class="tool" attr.data-tip="{{data.description}}">Description <i class="fa fa-clipboard text-light mx-1"
               (click)="copydescription(data.description)"></i></span>
         </div>
+        <div class="bg-success nav-pills">
+          <span class="fa fa-clock-rotate-left tate-left mx-2" (click)="handleCMS(data.link , i)"></span>
+          <span *ngIf="cms[i] == null;">Load cms </span>
+          <span  *ngIf='cms[i] != null'>
+            <small *ngIf="cms[i] == 1">CMS - <span class="timee"><i class="fa-brands icons-brand fa-wordpress"></i></span></small>
+            <small *ngIf="cms[i] == 2">CMS - <span class="timee"><i class="fa-brands icons-brand fa-shopify"></i></span></small>
+            <small *ngIf="cms[i] == 3"><span><i class="fa fa-times mx-2"></i>No CMS Found</span></small>
+          </span>
+          <span *ngIf="cmsurl == data.link" [innerHTML]="spinner"></span>
+        </div>
       </div>
 
       <!-- Organic Section  -->
@@ -159,7 +169,6 @@
                 <img src="{{list.thumbnail}}" />
               </div>
               <div class="d-flex flex-column">
-                <span></span>
                 <div><cite class="display_link">{{list.displayed_link}}</cite></div>
               </div>
             </div>
@@ -206,6 +215,24 @@
                 class="fa fa-clipboard text-light mx-1"
                 (click)="copydescription(list.snippet)"></i></span>
           </div>
+          <div class="bg-warning nav-pills">
+            <span class="fa fa-clock-ro tate-left mx-2" (click)="handleCMS(list.link , i)"></span>
+            <span *ngIf="cms[i] == null;">Load cms </span>
+            <span  *ngIf='cms[i] != null'>
+              <small *ngIf="cms[i]">Load cms:  <span class="timee"> {{ cms[i] }}</span> sec</small>
+            </span>
+            <span *ngIf="cmsurl == list.link" [innerHTML]="spinner"></span>
+          </div>
+          <div class="bg-success nav-pills">
+            <span class="fa fa-clock-rotate-left tate-left mx-2" (click)="handleCMS(list.link , i)"></span>
+            <span *ngIf="cms[i] == null;">Load cms </span>
+            <span  *ngIf='cms[i] != null'>
+              <small *ngIf="cms[i] == 1">CMS - <span class="timee"><i class="fa-brands icons-brand fa-wordpress"></i></span></small>
+              <small *ngIf="cms[i] == 2">CMS - <span class="timee"><i class="fa-brands icons-brand fa-shopify"></i></span></small>
+              <small *ngIf="cms[i] == 3"><span><i class="fa fa-times mx-2"></i>No CMS Found</span></small>
+            </span>
+            <span *ngIf="cmsurl == list.link" [innerHTML]="spinner"></span>
+          </div>
         </div>
       </div>
       <!-- Google -->
@@ -214,10 +241,9 @@
           <a href="{{list.link}}" target="_blank">
             <div class="d-flex">
               <div class="site_icon">
-                <div *ngIf="list.about_this_result.source.icon === null || undefined ">
-                  <img src="" />
+                <div *ngIf="list.about_this_result.source.icon && list.about_this_result.source.icon !== null">
+                    <img src="{{list.about_this_result.source.icon}}" />
                 </div>
-                <img src="{{list.about_this_result.source.icon}}" />
               </div>
               <div class="d-flex flex-column">
                 <span></span>
@@ -228,7 +254,7 @@
           </a>
           <div>
             <span *ngIf="list.date && list.date.length" class="date">{{list.date}} - </span>
-            <span class="text"> {{list.snippet}}</span>
+            <span class="text" *ngIf="list.snippet && list.snippet.length" > {{list.snippet}}</span>
           </div>
           <div>
             <ul class="sitelink_ul" *ngIf="this.organicResult[i].sitelinks && this.organicResult[i].sitelinks.length ;">
@@ -246,7 +272,7 @@
             <span class="fa fa-clock-rotate-left mx-2" (click)="pageLoad(list.link , i)"></span>
             <span *ngIf="time[i] == null;">Current Load Time </span>
             <span  *ngIf='time[i] != null'>
-              <small *ngIf="time[i]">Load time:  <span class="timee"> {{ time[i] }}</span> sec</small>
+              <small *ngIf="time[i]">Load time:<span class="timee"> {{ time[i] }}</span> sec</small>
             </span>
             <span *ngIf="Loadurl == list.link" [innerHTML]="spinner"></span>
           </div>
@@ -256,7 +282,6 @@
             <span  *ngIf='prevtime[i] != null'>
               <small *ngIf="prevtime[i]">Load Prev time:  <span class="timee"> {{ prevtime[i] }}</span> sec</small>
             </span>
-            <!-- <span *ngIf="prevLoadurl == list.link" [innerHTML]="spinner"></span> -->
           </div>
           <div class="bg-info nav-pills mx-2">
             <span class="tool" attr.data-tip="{{list.title}}">Title <i class="fa fa-clipboard text-light mx-1"
@@ -266,6 +291,16 @@
             <span class="tool" attr.data-tip="{{list.snippet}}">Description <i
                 class="fa fa-clipboard text-light mx-1"
                 (click)="copydescription(list.snippet)"></i></span>
+          </div>
+          <div class="bg-success nav-pills">
+            <span class="fa fa-clock-rotate-left tate-left mx-2" (click)="handleCMS(list.link , i)"></span>
+            <span *ngIf="cms[i] == null;">Load cms </span>
+            <span  *ngIf='cms[i] != null'>
+              <small *ngIf="cms[i] == 1">CMS - <span class="timee"><i class="fa-brands icons-brand fa-wordpress"></i></span></small>
+              <small *ngIf="cms[i] == 2">CMS - <span class="timee"><i class="fa-brands icons-brand fa-shopify"></i></span></small>
+              <small *ngIf="cms[i] == 3"><span><i class="fa fa-times mx-2"></i>No CMS Found</span></small>
+            </span>
+            <span *ngIf="cmsurl == list.link" [innerHTML]="spinner"></span>
           </div>
         </div>
       </div>
@@ -279,7 +314,6 @@
      <th>Sr No.</th>
      <th>Link</th>
      <th>Link Type</th>
-     <th>Page Load</th>
      <th>Page Title</th>
      <th>Page Description</th>
   </tr>
@@ -297,8 +331,7 @@
     <tr *ngFor="let binglist of this.organicResult;index as i">
        <td> {{i+1}}</td>
       <td>{{  binglist.displayed_link }}</td>
-       <td>Organic</td>
-       <td> {{prevtime[i]}}</td>
+      <td>Organic</td>
       <td>{{  binglist.title }}</td>
       <td>{{  binglist.snippet }}</td>
     </tr>
